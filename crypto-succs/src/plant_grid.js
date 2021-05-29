@@ -4,13 +4,6 @@ import green from "@material-ui/core/colors/green";
 import Paper from '@material-ui/core/Paper';
 import {Link} from "react-router-dom";
 
-import a0 from './images/aloeVera.png';
-import a1 from './images/pincushionCactus.png';
-import a2 from './images/dudleya.png';
-import b0 from './images/pot1.png';
-import b1 from './images/pot2.png';
-import b2 from './images/pot3.png';
-
 import "./index.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,23 +21,30 @@ const useStyles = makeStyles((theme) => ({
 
 function Plant(props) {
   const classes = useStyles();
-  /*id's have to start with a letter in order
-  so the variable names match up
-  not sure if id is gonna be the same as dna? a tad
-  confused but I'm sure you'll fix*/ 
-  const {plant, id} = props;
+  const {plant, id, pots} = props;
   
 
   if(plant) {
-    return (
-      //replace stuff inside src{} with correct part of id/dna code
-      <Link to={"/plant/" + id}> <Paper className={classes.paper} elevation={0}>   
-        <img className = "image" alt = 'succ' src={plant.getPlantImg()} />
-        <img className = "image" alt = 'pot' src={plant.getPotImg()}/>
-        {plant.name}
-      </Paper>
-      </Link>
-    );
+    const pot = pots[plant.potId];
+    if(pot) {
+      return (
+        <Link to={"/plant/" + id}> <Paper className={classes.paper} elevation={0}>   
+          <img className = "image" alt = 'succ' src={plant.getPlantImg()} />
+          <img className = "image" alt = 'pot' src={pot.getPotImg()}/>
+          {plant.name}
+        </Paper>
+        </Link>
+      );
+    } else {
+      return (
+        <Link to={"/plant/" + id}> <Paper className={classes.paper} elevation={0}>   
+          <img className = "image" alt = 'succ' src={plant.getPlantImg()} />
+          {plant.name}
+        </Paper>
+        </Link>
+      );
+    }
+    
   } else {
     return (
       //delete outline for demo, keep for now so can see where boxes are
@@ -54,14 +54,14 @@ function Plant(props) {
 }
 
 function PlantRow(props) {
-  const plants = props.plants;
+  const {plants, pots} = props;
 
   return(
     <Grid item xs={12}>
         <Grid container spacing={12} justify="flex-end" direction="row">
           {plants.map((plant, id) => (
             <Grid item xs key={id} item>
-              <Plant plant={plant} id={id} />
+              <Plant plant={plant} id={id} pots={pots}/>
             </Grid>
           ))}
         </Grid>
@@ -74,6 +74,7 @@ export default function PlantGrid(props) {
   const row1 = props.plants.slice(0, 4);
   const row2 = props.plants.slice(4, 8);
   const row3 = props.plants.slice(8, 12);
+  const pots = props.pots;
   
   //can u make grid rows right aligned? I tried flex-end but not working :((
   return (
@@ -81,17 +82,17 @@ export default function PlantGrid(props) {
     <Grid container className={classes.root} spacing={2} justify = "flex-end" direction="column">
       <div style={{ padding: 20}}>
       <Grid container item xs spacing={12}>
-        <PlantRow plants={row1}/>
+        <PlantRow plants={row1} pots={pots}/>
       </Grid>
       </div>
       <div style={{ padding: 20}}>
       <Grid container item xs spacing={12}>
-        <PlantRow plants={row2}/>
+        <PlantRow plants={row2} pots={pots}/>
       </Grid>
       </div>
       <div style={{ padding: 20}}>
       <Grid container item xs spacing={12}>
-        <PlantRow plants={row3}/>
+        <PlantRow plants={row3} pots={pots}/>
       </Grid>
       </div>
     </Grid>

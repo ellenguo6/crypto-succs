@@ -12,12 +12,15 @@ import { Plant } from './models/plant.js';
 import HomeScreen from './screens/home_screen.js';
 import ShopScreen from './screens/shop_screen.js';
 import BreedScreen from './screens/breeding_screen.js';
+import { Pot } from './models/pot.js';
 
 export default function App() {
   const plants = 
-    [new Plant("Planty McPlant", 11, "Bordering on existential crisis", 2.0), 
-    new Plant("Kack Tus", 2, ":)", 3.0), 
+    [new Plant("Planty McPlant", 11, 1, "Bordering on existential crisis", 2.0), 
+    new Plant("Kack Tus", 0, 2, ":)", 3.0), 
     null, null, null, null, null, null, null, null, null, null];
+  
+  const pots = [null, new Pot(1), new Pot(0)];
 
   return (
     <Router>
@@ -47,13 +50,13 @@ export default function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/home">
-            <HomeScreen plants={plants}/>
+            <HomeScreen plants={plants} pots={pots}/>
           </Route>
           <Route path="/shop">
             <ShopScreen />
           </Route>
           <Route path="/plant/:id">
-            <PlantScreen plants={plants} />
+            <PlantScreen plants={plants} pots={pots} />
           </Route>
           <Route path="/">
             <LandingScreen />
