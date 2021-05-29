@@ -39,8 +39,8 @@ function Plant(props) {
     return (
       //replace stuff inside src{} with correct part of id/dna code
       <Link to={"/plant/" + id}> <Paper className={classes.paper} elevation={0}>   
-        <img className = "image" alt = 'succ' src={a0} />
-        <img className = "image" alt = 'pot' src={b0}/>
+        <img className = "image" alt = 'succ' src={plant.getPlantImg()} />
+        <img className = "image" alt = 'pot' src={plant.getPotImg()}/>
         {plant.name}
       </Paper>
       </Link>

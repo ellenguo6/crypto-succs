@@ -15,8 +15,8 @@ import BreedScreen from './screens/breeding_screen.js';
 
 export default function App() {
   const plants = 
-    [new Plant("Planty McPlant", "Godly", "Bordering on existential crisis", 2.0), 
-    new Plant("Kack Tus", "0110101011", ":)", 3.0), 
+    [new Plant("Planty McPlant", 11, "Bordering on existential crisis", 2.0), 
+    new Plant("Kack Tus", 2, ":)", 3.0), 
     null, null, null, null, null, null, null, null, null, null];
 
   return (
