@@ -1,4 +1,4 @@
-export default function Hello() {
+export default function LandingScreen() {
     return(
         <div>
         <h1>Welcome to CryptoSuccs</h1>

@@ -7,9 +7,13 @@ import {
   Link
 } from "react-router-dom";
 import PlantGrid from './plant_grid.js'
-import Hello from './landing_screen.js'
+import LandingScreen from './screens/landing_screen.js'
+import PlantScreen from './screens/plant_screen.js';
+import { Plant } from './models/plant.js';
+import HomeScreen from './screens/home_screen.js';
 
 export default function App() {
+
   return (
     <Router>
       <div>
@@ -21,6 +25,9 @@ export default function App() {
             <li>
               <Link to="/home">Home</Link>
             </li>
+            <li>
+              <Link to="/plant">Generic Plant</Link>
+            </li>
           </ul>
         </nav>
 
@@ -28,10 +35,13 @@ export default function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/home">
-            <PlantGrid />
+            <HomeScreen />
+          </Route>
+          <Route path="/plant">
+            <PlantScreen plant={new Plant("Planty McPlant", "Godly", "Bordering on existential crisis", 2.0)} />
           </Route>
           <Route path="/">
-            <Hello />
+            <LandingScreen />
           </Route>
         </Switch>
       </div>
