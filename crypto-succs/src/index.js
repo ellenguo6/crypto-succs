@@ -10,6 +10,8 @@ import LandingScreen from './screens/landing_screen.js'
 import PlantScreen from './screens/plant_screen.js';
 import { Plant } from './models/plant.js';
 import HomeScreen from './screens/home_screen.js';
+import ShopScreen from './screens/shop_screen.js';
+import BreedScreen from './screens/breeding_screen.js';
 
 export default function App() {
   const plants = 
@@ -29,7 +31,14 @@ export default function App() {
               <Link to="/home">Home</Link>
             </li>
             <li>
+              <Link to="/shop">Shop</Link>
+            </li>
+            <li>
               <Link to="/plant/0">Generic Plant</Link>
+            </li>
+            {/*remember to take out later*/}
+            <li>
+              <Link to="/breed">Breed</Link>
             </li>
           </ul>
         </nav>
@@ -40,11 +49,18 @@ export default function App() {
           <Route path="/home">
             <HomeScreen plants={plants}/>
           </Route>
+          <Route path="/shop">
+            <ShopScreen />
+          </Route>
           <Route path="/plant/:id">
             <PlantScreen plants={plants} />
           </Route>
           <Route path="/">
             <LandingScreen />
+          </Route>
+          {/*remember to take out later*/}
+          <Route path="/breed">
+            <BreedScreen />
           </Route>
         </Switch>
       </div>
