@@ -15,5 +15,9 @@ export class Plant {
         let plantImgId = this.dna % 3;
         return PLANT_IMAGES[plantImgId];
     }
+
+    getPlantGrowth() {
+        return this.growth;
+    }
 }
 
