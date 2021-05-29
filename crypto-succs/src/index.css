@@ -7,6 +7,10 @@ ol, ul {
   padding-left: 30px;
 }
 
+.center {
+    text-align: center;
+}
+
 .image {
   max-width: 100%;
   max-height: 100%;

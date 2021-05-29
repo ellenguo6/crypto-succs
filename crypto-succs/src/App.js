@@ -1,9 +1,3 @@
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-  } from "react-router-dom";
   import LandingScreen from './screens/landing_screen.js'
   import PlantScreen from './screens/plant_screen.js';
   import { Plant } from './models/plant.js';
@@ -11,14 +5,28 @@ import {
   import ShopScreen from './screens/shop_screen.js';
   import BreedScreen from './screens/breeding_screen.js';
   import { Pot } from './models/pot.js';
+  import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
+  import {useState} from 'react';
+  import Web3 from 'web3';
+
   
   export default function App() {
+    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545")
+
     const plants = 
       [new Plant("Planty McPlant", 11, 1, "Bordering on existential crisis", 2.0), 
       new Plant("Kack Tus", 0, 2, ":)", 3.0), 
       null, null, null, null, null, null, null, null, null, null];
     
     const pots = [null, new Pot(1), new Pot(0)];
+
+    const [account, setAccount] = useState();
+    console.log(account)
   
     return (
       <Router>
@@ -57,7 +65,7 @@ import {
               <PlantScreen plants={plants} pots={pots} />
             </Route>
             <Route path="/">
-              <LandingScreen />
+              <LandingScreen  account={account} setAccount={setAccount}/>
             </Route>
             {/*remember to take out later*/}
             <Route path="/breed">
