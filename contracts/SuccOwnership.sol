@@ -9,6 +9,11 @@ contract SuccOwnership is ERC721 {
     // string name = "CryptoSuccs";
     // string symbol = "CS";
 
+    modifier succIdInRange(uint256 succId) {
+        require(succId < succs.length, "Succulent ID out of range");
+        _;
+    }
+
     event newSucc(
         address owner,
         uint256 succId,
@@ -63,14 +68,19 @@ contract SuccOwnership is ERC721 {
         uint256 _genes,
         address _owner
     ) internal returns (uint256) {
-        uint8 watersNeededIndex = succs[_parent1Id].watersNeededIndex / 2;
+        uint256 watersNeededIndex = 0;
+        if (_parent1Id != 0) {
+            watersNeededIndex = succs[_parent1Id].watersNeededIndex / 2;
+        } else if (_parent2Id != 0) {
+            watersNeededIndex = succs[_parent2Id].watersNeededIndex / 2;
+        }
         succs.push(
             Succ(
                 _genes,
                 uint64(block.timestamp),
                 0,
                 0,
-                watersNeededIndex,
+                uint8(watersNeededIndex),
                 false
             )
         );
@@ -78,6 +88,7 @@ contract SuccOwnership is ERC721 {
         _safeMint(_owner, _newSuccIndex);
         emit newSucc(_owner, _newSuccIndex, _parent1Id, _parent2Id, _genes);
         return _newSuccIndex;
+        // return 0;
     }
 
     function buySucc(uint256 _genes, uint256 _price)
@@ -138,6 +149,7 @@ contract SuccOwnership is ERC721 {
     function getSuccInfo(uint256 _succId)
         external
         view
+        succIdInRange(_succId)
         returns (
             uint256 genes,
             uint256 sproutTime,
@@ -156,7 +168,16 @@ contract SuccOwnership is ERC721 {
         isBlooming = _thisSucc.isBlooming;
     }
 
-    function getSuccAge(uint256 _succId) external view returns (uint256) {
+    function getSuccAge(uint256 _succId)
+        external
+        view
+        succIdInRange(_succId)
+        returns (uint256)
+    {
         return block.timestamp - uint256(succs[_succId].sproutTime);
+    }
+
+    function getPotOwnership() external view returns (PotOwnershipInterface) {
+        return PotOwnership;
     }
 }

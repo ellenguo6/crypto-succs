@@ -9,7 +9,12 @@ contract PotOwnership is PotOwnershipInterface, ERC721 {
     // string symbol = "CP";
 
     modifier onlyAdmin() {
-        require(msg.sender == admin);
+        require(msg.sender == admin, "only admin");
+        _;
+    }
+
+    modifier potIdInRange(uint256 potId) {
+        require(potId < pots.length, "Succulent ID out of range");
         _;
     }
 
@@ -26,6 +31,7 @@ contract PotOwnership is PotOwnershipInterface, ERC721 {
     {
         // name = name_;
         // symbol = symbol_;
+        admin = msg.sender;
     }
 
     function _createPot(uint256 _design, address _owner)
@@ -84,9 +90,10 @@ contract PotOwnership is PotOwnershipInterface, ERC721 {
         external
         override
         onlyAdmin
+        potIdInRange(_potId)
         returns (bool)
     {
-        pots[_potId].succId == _succId;
+        pots[_potId].succId = uint32(_succId);
         assert(pots[_potId].succId == _succId);
         return true;
     }
@@ -95,6 +102,7 @@ contract PotOwnership is PotOwnershipInterface, ERC721 {
         external
         view
         override
+        potIdInRange(_potId)
         returns (uint256 design, uint256 succId)
     {
         Pot memory _thisPot = pots[_potId];
@@ -116,8 +124,13 @@ contract PotOwnership is PotOwnershipInterface, ERC721 {
         external
         view
         override
+        potIdInRange(_potId)
         returns (uint256)
     {
         return block.timestamp - pots[_potId].creationTime;
+    }
+
+    function getAdmin() external view returns (address) {
+        return admin;
     }
 }
