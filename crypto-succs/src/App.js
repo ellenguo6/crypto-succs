@@ -81,16 +81,6 @@ import {
               <li>
                 <Link to="/home">Home</Link>
               </li>
-              <li>
-                <Link to="/shop">Shop</Link>
-              </li>
-              <li>
-                <Link to="/plant/0">Generic Plant</Link>
-              </li>
-              {/*remember to take out later*/}
-              <li>
-                <Link to="/breed">Breed</Link>
-              </li>
             </ul>
           </nav>
   
@@ -100,18 +90,8 @@ import {
             <Route path="/home">
               <HomeScreen plants={plants} pots={pots}/>
             </Route>
-            <Route path="/shop">
-              <ShopScreen />
-            </Route>
-            <Route path="/plant/:id">
-              <PlantScreen plants={plants} pots={pots} />
-            </Route>
             <Route path="/">
               <LandingScreen setupBlockchain={setupBlockchain} account={account} setAccount={setAccount} buyPlant={buyPlant} getPlants={getPlants}/>
-            </Route>
-            {/*remember to take out later*/}
-            <Route path="/breed">
-              <BreedScreen />
             </Route>
           </Switch>
         </div>
