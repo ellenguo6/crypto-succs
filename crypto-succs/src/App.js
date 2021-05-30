@@ -11,22 +11,64 @@
     Route,
     Link
   } from "react-router-dom";
-  import {useState} from 'react';
+  import {useEffect, useState} from 'react';
   import Web3 from 'web3';
-
+  import {
+      SUCC_OWNERSHIP_ADDRESS,
+      SUCC_OWNERSHIP_ABI
+    } from "./config"
+import {
+    getAccount,
+    getSuccContract,
+    buySucc,
+    getPotContract,
+    getPotAdmin,
+    getSuccIds,
+} from './backend/backend.js'
   
   export default function App() {
-    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545")
+    const web3 = new Web3(Web3.givenProvider || "https://rpc-mumbai.matic.today/")
 
-    const plants = 
-      [new Plant("Planty McPlant", 11, 1, "Bordering on existential crisis", 2.0), 
-      new Plant("Kack Tus", 0, 2, ":)", 3.0), 
-      null, null, null, null, null, null, null, null, null, null];
-    
-    const pots = [null, new Pot(1), new Pot(0)];
+    const default_plants = new Array(12).fill(null);
 
+    const [plants, setPlants] = useState(default_plants);
+    const [pots, setPots] = useState();
     const [account, setAccount] = useState();
-    console.log(account)
+    const [succContract, setSuccContract] = useState();
+
+    async function setupBlockchain() {
+        const account = await getAccount(web3)
+        setAccount(account);
+        const succContract = await getSuccContract(web3);
+        setSuccContract(succContract);
+        const potContract = await getPotContract(web3);
+        const admin = await getPotAdmin(potContract);
+        console.log(admin)
+    }
+
+    async function getPlants() {
+        if(!account || !succContract) {
+            console.log('bruh you gotta connect ur accnt first')
+        }
+        const plantIds = await getSuccIds(web3, account, succContract);
+        console.log(plantIds)
+    }
+
+    async function buyPlant() {
+        if(!account || !succContract) {
+            console.log('bruh you gotta connect ur accnt first')
+        }
+        await buySucc(web3, succContract, account, 0, 0)
+    }
+
+    // const plants = 
+    //   [new Plant("Planty McPlant", 11, 1, "Bordering on existential crisis", 2.0), 
+    //   new Plant("Kack Tus", 0, 2, ":)", 3.0), 
+    //   null, null, null, null, null, null, null, null, null, null];
+    
+    // const pots = [null, new Pot(1), new Pot(0)];
+
+
   
     return (
       <Router>
@@ -65,7 +107,7 @@
               <PlantScreen plants={plants} pots={pots} />
             </Route>
             <Route path="/">
-              <LandingScreen  account={account} setAccount={setAccount}/>
+              <LandingScreen setupBlockchain={setupBlockchain} account={account} setAccount={setAccount} buyPlant={buyPlant} getPlants={getPlants}/>
             </Route>
             {/*remember to take out later*/}
             <Route path="/breed">
