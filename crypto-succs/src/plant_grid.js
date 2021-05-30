@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     height: 150,
     width: 150,
+    background: "transparent"
   },
   paperback: {
     height: 150,
@@ -53,9 +54,11 @@ function Plant(props) {
         <>
         <ButtonBase onClick={()=> setIsOpen(true)}>
           <Paper className={classes.paper} elevation={0}>   
+
             <img className = "image" alt = 'succ' src={plant.getPlantImg()} />
             <img className = "image" alt = 'pot' src={pot.getPotImg()}/>
-            {plant.name}
+
+              
           </Paper>
         </ButtonBase>
 

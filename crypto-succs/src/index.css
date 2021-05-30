@@ -51,6 +51,15 @@ ol, ul {
   border-radius: 5px;
 }
 
+.background{
+  background-color: #6e7388;
+  background-image: url(./images/shelves.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
 .center{
   text-align: center;
 }
